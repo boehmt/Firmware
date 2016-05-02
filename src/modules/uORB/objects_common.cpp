@@ -300,3 +300,6 @@ ORB_DEFINE(gps_inject_data, struct gps_inject_data_s);
 
 #include "topics/adc_report.h"
 ORB_DEFINE(adc_report, struct adc_report_s);
+
+#include "topics/parachute_state.h"
+ORB_DEFINE(parachute_state, struct parachute_state_s);
