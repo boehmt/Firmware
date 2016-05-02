@@ -52,6 +52,8 @@
 #include <systemlib/perf_counter.h>
 #include <systemlib/airspeed.h>
 
+#include <px4_log.h>
+
 #include <conversion/rotation.h>
 
 
