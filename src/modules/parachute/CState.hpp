@@ -10,7 +10,7 @@
 
 #if MAVLINK_VERBOSE > 0
 #include <stdio.h>
-#include <mavlink/mavlink_log.h>
+#include <systemlib/mavlink_log.h>
 #endif
 
 class CStateMachine;
