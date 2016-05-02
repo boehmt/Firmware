@@ -16,7 +16,7 @@
 #include <poll.h>
 
 
-#include <mavlink/mavlink_log.h>
+#include <systemlib/mavlink_log.h>
 #include <systemlib/param/param.h>
 #include <systemlib/systemlib.h>
 
