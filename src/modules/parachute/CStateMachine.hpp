@@ -254,20 +254,20 @@ CStateMachine::publishActuators()
 		if(OK != setActuatorState(ARMED))
 		{
 			#if MAVLINK_VERBOSE > 1
-			mavlink_and_console_log_info(m_iMavLinkFd, "PARA: arming actuators \t[failed]\n");
+			mavlink_and_console_log_info((void**)m_iMavLinkFd, "PARA: arming actuators \t[failed]\n");
 			#endif
 		}
 		else
 		{
 			#if MAVLINK_VERBOSE > 1
-			mavlink_and_console_log_info(m_iMavLinkFd, "PARA: arming actuators \t[done]\n");
+			mavlink_and_console_log_info((void**)m_iMavLinkFd, "PARA: arming actuators \t[done]\n");
 			#endif
 		}
 	}
 	else
 	{
 		#if MAVLINK_VERBOSE > 1
-		mavlink_and_console_log_info(m_iMavLinkFd, "PARA: actuators already armed\n");
+		mavlink_and_console_log_info((void**)m_iMavLinkFd, "PARA: actuators already armed\n");
 		#endif
 	}
 
@@ -278,13 +278,13 @@ CStateMachine::publishActuators()
 	if(OK != setActuatorState(eState))
 	{
 		#if MAVLINK_VERBOSE > 1
-		mavlink_and_console_log_info(m_iMavLinkFd, "PARA: reset actuators arming state \t[failed]\n");
+		mavlink_and_console_log_info((void**)m_iMavLinkFd, "PARA: reset actuators arming state \t[failed]\n");
 		#endif
 	}
 	else
 	{
 		#if MAVLINK_VERBOSE > 1
-		mavlink_and_console_log_info(m_iMavLinkFd, "PARA: reset actuators arming state \t[done]\n");
+		mavlink_and_console_log_info((void**)m_iMavLinkFd, "PARA: reset actuators arming state \t[done]\n");
 		#endif
 	}
 }
