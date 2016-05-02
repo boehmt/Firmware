@@ -15,13 +15,12 @@ CStateMachine::CStateMachine()
 	, m_pStateLanding(nullptr)
 	, m_eState(LANDING)
 	, m_bStateHasChanged(true)
-	, m_actuatorsPub(-1)
-	, m_parachutePub(-1)
+	, m_actuatorsPub(0)
+	, m_parachutePub(0)
 	, m_iPositionHanlde(-1)
-
-, m_iVehicleStatusHandle(-1)
-	, m_tPositionValidTime(0)
+	, m_iVehicleStatusHandle(-1)
 {
+	m_tPositionValidTime = 0;
 }
 
 
@@ -35,8 +34,6 @@ CStateMachine::~CStateMachine()
 	delete m_pStateFlight;
 	delete m_pStateLanding;
 
-	close(m_actuatorsPub);
-	close(m_parachutePub);
 	close(m_iPositionHanlde);
 }
 
@@ -146,7 +143,7 @@ CStateMachine::changeState(EState_t state)
 
 	switch(state)
 	{
-	case INIT: 		m_pCurrentState = (CStateInit*)		m_pStateInit; 	break;
+	case INIT: 		m_pCurrentState = (CStateInit*)		m_pStateInit; 		break;
 	case FLIGHT: 	m_pCurrentState = (CStateFlight*)	m_pStateFlight; 	break;
 	case LANDING: 	m_pCurrentState = (CStateLanding*)	m_pStateLanding; 	break;
 	default:
@@ -400,7 +397,7 @@ CStateMachine::isDataLinked()
 
 
 bool
-CStateMachine::sendCommanderCmd(enum VEHICLE_CMD command, int param1, int param2)
+CStateMachine::sendCommanderCmd(unsigned int command, int param1, int param2)
 {
 	struct vehicle_command_s cmd;
 	struct vehicle_status_s status;
@@ -418,11 +415,11 @@ CStateMachine::sendCommanderCmd(enum VEHICLE_CMD command, int param1, int param2
 	cmd.source_system = status.system_id;
 	cmd.target_component = 50;
 	cmd.source_component = 123;
-	if(command == VEHICLE_CMD_COMPONENT_ARM_DISARM)
+	if(command == vehicle_command_s::VEHICLE_CMD_COMPONENT_ARM_DISARM)
 	{
 		cmd.param1 = param1;
 	}
-	else if(command == VEHICLE_CMD_DO_SET_MODE)
+	else if(command == vehicle_command_s::VEHICLE_CMD_DO_SET_MODE)
 	{
 		cmd.param1 = param1;
 		cmd.param2 = param2;
@@ -434,10 +431,10 @@ CStateMachine::sendCommanderCmd(enum VEHICLE_CMD command, int param1, int param2
 
 	switch(command)
 	{
-	case VEHICLE_CMD_COMPONENT_ARM_DISARM:
+	case vehicle_command_s::VEHICLE_CMD_COMPONENT_ARM_DISARM:
 		return (param1 == ARMED) ? (status.main_state == status.ARMING_STATE_ARMED) : (status.main_state == status.ARMING_STATE_STANDBY);
 
-	case VEHICLE_CMD_NAV_RETURN_TO_LAUNCH:
+	case vehicle_command_s::VEHICLE_CMD_NAV_RETURN_TO_LAUNCH:
 		return (status.nav_state == status.NAVIGATION_STATE_AUTO_RTL);
 
 	default: return false;

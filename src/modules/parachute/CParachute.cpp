@@ -120,7 +120,7 @@ CParachute::start()
 
 
 	/* start the task */
-	m_parachute_task = task_spawn_cmd("parachute_task",
+	m_parachute_task = px4_task_spawn_cmd("parachute_task",
 				       SCHED_DEFAULT,
 				       SCHED_PRIORITY_DEFAULT - 20,
 				       2048,

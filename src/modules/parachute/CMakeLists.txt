@@ -35,8 +35,9 @@ px4_add_module(
 	MAIN parachute
 	STACK 2000
 	COMPILE_FLAGS
-		-Wall
+		-Wno-unused-variable
 		-Os
+		-D MAVLINK_VERBOSE=2
 	SRCS
 	  states/CStateFlight.cpp
 	  states/CStateInit.cpp

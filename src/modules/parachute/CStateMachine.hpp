@@ -16,7 +16,7 @@
 #include <poll.h>
 
 
-#include <systemlib/mavlink_log.h>
+#include <mavlink/mavlink_log.h>
 #include <systemlib/param/param.h>
 #include <systemlib/systemlib.h>
 
@@ -184,7 +184,7 @@ private:
 	void 	advertise();
 	void 	waitForGPSLock();
 
-	bool	sendCommanderCmd(enum VEHICLE_CMD, int param1 = 0, int param2 = 0);
+	bool	sendCommanderCmd(unsigned int, int param1 = 0, int param2 = 0);
 
 	void 	positionPoll(vehicle_global_position_s *);
 
@@ -297,7 +297,7 @@ CStateMachine::publishActuators()
 bool
 CStateMachine::setVehicleState(EArmedState_t eState)
 {
-	return sendCommanderCmd(VEHICLE_CMD_COMPONENT_ARM_DISARM, (eState == ARMED));
+	return sendCommanderCmd(vehicle_command_s::VEHICLE_CMD_COMPONENT_ARM_DISARM, (eState == ARMED));
 }
 
 
@@ -311,9 +311,9 @@ CStateMachine::setAutoLoiterMode()
 {
 	int l_iMode;
 	l_iMode =  (PX4_CUSTOM_MAIN_MODE_AUTO << 8) | PX4_CUSTOM_SUB_MODE_AUTO_LOITER;
-	bool l_bReturn = sendCommanderCmd(VEHICLE_CMD_DO_SET_MODE, 0, l_iMode);
+	bool l_bReturn = sendCommanderCmd(vehicle_command_s::VEHICLE_CMD_DO_SET_MODE, 0, l_iMode);
 
-	l_bReturn |= sendCommanderCmd(VEHICLE_CMD_NAV_LOITER_UNLIM);
+	l_bReturn |= sendCommanderCmd(vehicle_command_s::VEHICLE_CMD_NAV_LOITER_UNLIM);
 	return l_bReturn;
 }
 
@@ -329,9 +329,9 @@ CStateMachine::setAutoRTLMode()
 	int l_iBaseMode, l_iCustomMode;
 	l_iBaseMode = MAV_MODE_FLAG_SAFETY_ARMED | MAV_MODE_FLAG_CUSTOM_MODE_ENABLED;
 	l_iCustomMode = PX4_CUSTOM_MAIN_MODE_AUTO;
-	bool l_bReturn = sendCommanderCmd(VEHICLE_CMD_DO_SET_MODE, l_iBaseMode, l_iCustomMode);
+	bool l_bReturn = sendCommanderCmd(vehicle_command_s::VEHICLE_CMD_DO_SET_MODE, l_iBaseMode, l_iCustomMode);
 
-	l_bReturn |= sendCommanderCmd(VEHICLE_CMD_NAV_RETURN_TO_LAUNCH);
+	l_bReturn |= sendCommanderCmd(vehicle_command_s::VEHICLE_CMD_NAV_RETURN_TO_LAUNCH);
 	return l_bReturn;
 }
 
